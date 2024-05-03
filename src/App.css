@@ -1,0 +1,8 @@
+.General{
+    background-color: cadetblue;    
+    display: grid;
+    grid-template-rows: 100px 5rem 300px 30%;
+    grid-area: main;
+    padding: 20px;
+    margin-top: 200px;
+}
