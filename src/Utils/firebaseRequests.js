@@ -10,7 +10,10 @@ const Update = async (obj,collectionName) => {
   }
   
   const Add = async (obj,collectionName) => {
-    await addDoc(collection(db, collectionName), obj);
+    const id = await addDoc(collection(db, collectionName), obj).then(docRef=>{
+      return docRef.id
+    });
+    return id
   }
 
   export  { Add ,Update, Delete };

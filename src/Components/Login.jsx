@@ -47,8 +47,7 @@ const [FormData,SetFormData] = useState()
   },[])
 
   useEffect(()=>{
-    if(sessionStorage.getItem("Users_First_Load") === 'true')
-      if(RegisteredUsers)
+    if(sessionStorage.getItem("Users_First_Load") === 'true' && RegisteredUsers)
       {
         dispatch({type:"UPDATE_REGISTERED_USERS",payload:RegisteredUsers})
         sessionStorage.setItem("Users_First_Load",false)

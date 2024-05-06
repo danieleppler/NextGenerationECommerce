@@ -1,6 +1,9 @@
+import Product from "../Components/AdminComps/Product"
+
 const initialState={
     RegisteredUsers:[],
-    Catagories:[] 
+    Catagories:[],
+    Products:[] 
 }
 
 const Reducer = (state = initialState,action)=>{
@@ -17,25 +20,37 @@ const Reducer = (state = initialState,action)=>{
 
         case "UPDATE_CATAGORY":{
             const index = state.Catagories.findIndex((x) => x.id === action.payload.id)
-            state.Catagories[index] = action.payload.id;
-            return {...state,Catagories:state.Catagories}
+            const temp =[...state.Catagories]
+
+            temp[index] = action.payload
+            return {...state,Catagories:temp}
         }
 
         case "DELETE_CATAGORY":{
-            const temp = state.Catagories.map((x) => x.id != action.payload)
+            const temp = state.Catagories.filter((x) => x.id != action.payload)
             return {...state,Catagories:temp}
         }
 
         case "ADD_CATAGORY":
             return {...state,Catagories:[...state.Catagories,action.payload]}
 
-        case "GET_CURRENT_SESSION_CATAGORIES":
+        case "ADD_PRODUCT":
+            return {...state,Products:[...state.Products,action.payload]}
+
+        case "UPDATE_PRODUCTS":
+            return {...state,Products:[...state.Products,...action.payload]}
+
+        case "UPDATE_PRODUCT":
             {
-                return{
-                    ...state,
-                    Catagories:action.data
-                }
+                const index = state.Products.findIndex((x) => x.id === action.payload.id)
+                let temp = [...state.Products]
+                temp[index] = action.payload
+                return {...state,Products:temp}
+    
             }
+            
+        case "RESET_STORE":
+            return initialState
 
         default: 
             return state || initialState 

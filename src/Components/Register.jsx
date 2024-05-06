@@ -62,7 +62,7 @@ const findFormErrors = () =>{
       setErrors(newErrors)
     } 
     else{
-      SetformData({...formData,JoinedAt : Date.now})
+      SetformData({...formData,JoinedAt : Date.now,ProdcutsBought:[]})
       Add(formData,"RegisteredUsers")
       notify()
       dispatch({type:"ADD_USER",payload:formData})

@@ -11,20 +11,29 @@ import AdminCustomers from './Components/AdminComps/AdminCustomers'
 import AdminStatistics from './Components/AdminComps/AdminStatistics'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+
+
+import { useDispatch } from 'react-redux'
+
 function App() {
+
+ 
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     if(sessionStorage.getItem("FirstRun") === null)
     {
-      
+      dispatch({type:"RESET_STORE"})
       sessionStorage.setItem("FirstRun",false)
       sessionStorage.setItem("Admin_Catagories_First_Load",true) 
-      sessionStorage.setItem("Users_First_Load",true)
+      sessionStorage.setItem("Users_First_Load",true) 
+      sessionStorage.setItem("Admin_Products_First_Load",true)
     }
 
-
+    
   },[])
 
+ 
 
   return (
     <>
