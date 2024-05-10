@@ -14,6 +14,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 import { useDispatch } from 'react-redux'
+import CostumersMain from './Components/CostumersComps/CostumersMain'
+import MyAccount from './Components/CostumersComps/MyAccount'
+import MyOrders from './Components/CostumersComps/MyOrders'
+import CostumerProdcuts from './Components/CostumersComps/CostumerProdcuts'
 
 function App() {
 
@@ -47,6 +51,12 @@ function App() {
       <Route path='Products' element={<AdminProducts />} />
       <Route path='Customers' element={<AdminCustomers />} />
       <Route path='Statistics' element={<AdminStatistics />} />
+    </Route>
+
+    <Route path='costumer' element={<CostumersMain />}>
+      <Route path='Account' element={<MyAccount />}></Route>
+      <Route path='Orders' element={<MyOrders />}></Route>
+      <Route path='Products' element={<CostumerProdcuts />}></Route>
     </Route>
     
     </Routes>

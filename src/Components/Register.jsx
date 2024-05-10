@@ -25,18 +25,21 @@ function Register() {
     lName: "",
     user:"",
     pass: "",
-    JoinedAt:""
   })
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
 
   const [formData, SetformData] = useState({
     firstName: "",
     lastName: "",
     UserName:"",
     Password: "",
-    Permission: false
+    Permission: false,
+    JoinedAt : new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+    ProdcutsBought:[],
+    type:"costumer"
 });
 
 const findFormErrors = () =>{
@@ -62,10 +65,10 @@ const findFormErrors = () =>{
       setErrors(newErrors)
     } 
     else{
-      SetformData({...formData,JoinedAt : Date.now,ProdcutsBought:[]})
-      Add(formData,"RegisteredUsers")
+      const newId =Add(formData,"RegisteredUsers")
+      const obj = {...formData,id:newId}
       notify()
-      dispatch({type:"ADD_USER",payload:formData})
+      dispatch({type:"ADD_USER",payload:obj})
       navigate("/login")
     }
     setsubmitted(true);

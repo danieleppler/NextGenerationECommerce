@@ -9,12 +9,8 @@ import { onSnapshot,query,collection } from 'firebase/firestore';
 
 //Bootstrap imports
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container'
-import { connectStorageEmulator } from 'firebase/storage';
+
 
 
 
@@ -77,7 +73,13 @@ const handleSubmit  = (e)=>{
       SetErrors(newErrors)
     }
     else{
-      nav('/admin')
+      const user = RegisteredUsers?.find((x)=>x.UserName == FormData.Username)
+      if(user.type === 'admin')
+        nav('/admin')
+      else {
+        dispatch({type:"UPDATE_CURRENT_LOGGED_IN_USER",payload:user})
+        nav('/costumer')
+      }
     } 
   Setsubmitted(true)
 }

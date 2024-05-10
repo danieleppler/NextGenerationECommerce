@@ -3,7 +3,8 @@ import Product from "../Components/AdminComps/Product"
 const initialState={
     RegisteredUsers:[],
     Catagories:[],
-    Products:[] 
+    Products:[],
+    CurrentLogedInUser:{} 
 }
 
 const Reducer = (state = initialState,action)=>{
@@ -21,7 +22,6 @@ const Reducer = (state = initialState,action)=>{
         case "UPDATE_CATAGORY":{
             const index = state.Catagories.findIndex((x) => x.id === action.payload.id)
             const temp =[...state.Catagories]
-
             temp[index] = action.payload
             return {...state,Catagories:temp}
         }
@@ -46,8 +46,22 @@ const Reducer = (state = initialState,action)=>{
                 let temp = [...state.Products]
                 temp[index] = action.payload
                 return {...state,Products:temp}
-    
             }
+        
+        case "UPDATE_USER":
+            {
+                    const index = state.Products.findIndex((x) => x.id === action.payload.id)
+                    let temp = [...state.Products]
+                    temp[index] = action.payload
+                    return {...state,Products:temp}
+            }
+            
+
+        case "UPDATE_CURRENT_LOGGED_IN_USER":{
+            {
+                return {...state,CurrentLogedInUser:action.payload}
+            }
+        }
             
         case "RESET_STORE":
             return initialState
