@@ -46,6 +46,11 @@ const Product = (props) => {
         </Row>
         <Row>
           <Col>
+          <strong>In Stock : </strong><input value={Product?.InStock} onChange ={(e)=>{SetProduct({...Product,InStock:e.target.value})}}></input>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
           <button onClick={()=>{props.update(Product)}}>Save</button>
           </Col>
         </Row>

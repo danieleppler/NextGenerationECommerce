@@ -4,6 +4,12 @@ import db from '../../Utils/firebase'
 import { onSnapshot,query,collection } from 'firebase/firestore'
 import { useEffect,useState } from 'react'
 import Product from './Product'
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import MyCart from './MyCart'
+import { update } from 'firebase/database'
+import { Update } from '../../Utils/firebaseRequests'
+
 
 const CostumerProdcuts = () => {
 
@@ -15,6 +21,8 @@ const CostumerProdcuts = () => {
     return state?.rootReducer.Catagories
   })
 
+  const UserFromStore = useSelector((state)=>state?.rootReducer.CurrentLogedInUser)
+
   const [Products,SetProducts] = useState()
   const [Catagories,SetCatagories] = useState()
   const [FilterData,SetFilterData] =  useState({
@@ -23,15 +31,50 @@ const CostumerProdcuts = () => {
     Title:""
   })
 
+  const [Cart,SetCart] = useState([])
+  const [MaxPrice,SetMaxPrice] = useState()
+  const [showCart, setShowCart] = useState(false);
+
+  const handleClose = () => setShowCart(false);
+  const handleShow = () => setShowCart(true);
+
   const dispatch = useDispatch()
 
 
+  const UpdateCart = (obj) =>{
+    let temp = []
+    if(obj.Count == 0 )
+    {
+      temp = Cart.filter((x)=>
+        x.Title != obj.Title
+      ) 
+      SetCart(temp)
+    }
+    else
+    {
+      let index = Cart.findIndex((x)=>x.Title == obj.Title)
+      if(index == -1)
+        SetCart([...Cart,obj])
+      else
+      {
+        let objCopy = [...Cart]
+        objCopy[index] = {...objCopy[index],Count:obj.Count}
+        SetCart(objCopy)        
+      }
+    }
+    let tempProds  = Products
+    let index = Products.findIndex((z)=> z.Title == obj.Title)
+    tempProds[index]= {...tempProds[index],Count:obj.Count}
+    SetProducts(tempProds) 
+      
+  }
   useEffect(()=>{
     const fetchProds = () =>{
       const q = query(collection(db, 'Products'))
       onSnapshot(q, (snapshot) => {
         SetProducts(snapshot.docs.map((doc)=>{
           return {id: doc.id,
+            Count:0,
           ...doc.data()}
         }))
       })
@@ -50,7 +93,13 @@ const CostumerProdcuts = () => {
     if(sessionStorage.getItem("Admin_Products_First_Load") === 'true')
       fetchProds()   
     else
+    {
+      CurrentProducts?.forEach((x)=>
+        x = {...x,Count:0}
+      )
       SetProducts(CurrentProducts)
+    }
+      
 
     if(sessionStorage.getItem("Admin_Catagories_First_Load") === 'true')
       fetchCatagories()   
@@ -58,13 +107,23 @@ const CostumerProdcuts = () => {
       SetCatagories(CurrentCatagories)
   },[])
 
+
   useEffect(()=>{
     if(sessionStorage.getItem("Admin_Products_First_Load") === 'true' && Products)
     {
       dispatch({type:"UPDATE_PRODUCTS",payload:Products})
       sessionStorage.setItem("Admin_Products_First_Load",false)
     }
-  },[Products])
+    let max = 0
+    Products?.forEach(element => {
+      let TotalBought = element?.Bought_By.reduce((acc,x)=>acc + parseInt(x.qty),0)
+      element = {...element,TotalBought:TotalBought}
+      if(parseInt(element.Price) > max)
+        max = parseInt(element.Price)
+    });
+    SetMaxPrice(max)
+    },[Products])
+
 
   useEffect(()=>{
     if(sessionStorage.getItem("Admin_Catagories_First_Load") === 'true' && Catagories)
@@ -97,6 +156,30 @@ const handleClear = () =>{
   SetFilterData({})
   SetProducts(CurrentProducts)
 }
+
+const OrderProds = () =>{
+  let temp = UserFromStore
+  let Order = Cart.map((x)=>{
+    return {
+      Title : x.Title,
+      Qty: x.Count,
+      Total: parseInt(x.Count) * parseInt(x.Price),
+      Date: new Date() 
+    }
+  })
+  temp = {...temp,ProdcutsBought:[...temp.ProdcutsBought,...Order]}
+  Update(temp,"RegisteredUsers")
+  dispatch({type:"UPDATE_USER",payload:temp})
+  dispatch({type:"UPDATE_CURRENT_LOGGED_IN_USER",payload:temp})
+  SetCart([])
+
+  let tempProds = Products
+  tempProds.forEach(element => {
+    element.Count = 0
+  });
+  SetProducts(tempProds)
+
+}
   
   return (
     <div>
@@ -111,7 +194,7 @@ const handleClear = () =>{
       </select>
       <label for="customRange" className="form-label">Price</label>
       <input name = "Price" onChange={(e)=>{handleChange(e)}} 
-      style={{width:"10%"}} type="range" className="form-range" id="customRange1" step="10" max="2000"></input>
+      style={{width:"10%"}} type="range" className="form-range" id="customRange1" step="10" max={Math.ceil(MaxPrice)}></input>
       {FilterData?.Price} $
       Title : <input name ="Title" onChange={(e)=>{handleChange(e)}} type="text"></input>
       <button onClick={()=>{handleClick()}}>Search</button>
@@ -120,11 +203,37 @@ const handleClear = () =>{
  
       
     </nav>
+ 
+
+
+
+<div>
+      <Button style={{position: "absolute",left:"0"}} variant="primary" onClick={handleShow}>
+        Open Cart
+      </Button>
+
+      <Offcanvas show={showCart} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>MyCart</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          {
+          Cart.length > 0?
+          <MyCart updateFunc={UpdateCart} data={Cart} OrderProds = {OrderProds} />
+        :
+        <h3>No Products In Cart Yet</h3>
+        }
+         
+        </Offcanvas.Body>
+      </Offcanvas>
+    </div>
+
     {
       Products?.map((x)=>{
-        return <Product data={x} />
+        return <Product updateFunc={UpdateCart} data={x} />
       })
     }
+
     </div>
   )
 }

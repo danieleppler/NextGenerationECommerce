@@ -22,9 +22,11 @@ const AdminProducts = () => {
 
   const CurrentCatagories = useSelector((state)=>{
     return state?.rootReducer.Catagories
-  }
+  })
+
+
      
-)
+
 
   useEffect(()=>{
     const fetchProds = () =>{
@@ -102,7 +104,6 @@ const handleChange = (e)=>{
 
   return (
     <div>
-      {console.log("render")}
         {
           Products?.map((x)=>{
             return <Product data={x} Catagories={Catagories?.map((x)=>x.Title)} update={handleUpdate}/>
@@ -127,10 +128,14 @@ const handleChange = (e)=>{
         <strong>Price :</strong> <input name ="Price" onChange={handleChange} style={{height:"20px"}}></input> <br />
         <strong>Link to pic :</strong> <input name ="Link_to_pic" onChange={handleChange} style={{height:"20px"}}></input><br />
         <strong>Description :</strong> <textarea name ="Description" onChange={handleChange} style={{height:"20px"}}></textarea>  <br />
+        <strong>Stock :</strong> <input name ="InStock" onChange={handleChange} style={{height:"20px"}}></input>
         <button onClick={(e)=>{
           AddNew(NewProd)
           SetAddNewClicked(false)
-          }}>Save</button>       
+          }}>Save</button>
+           <button onClick={(e)=>{
+          SetAddNewClicked(false)
+          }}>Cancel</button>          
         </div>  
         :
         <></>
