@@ -38,7 +38,7 @@ const Reducer = (state = initialState,action)=>{
             return {...state,Products:[...state.Products,action.payload]}
 
         case "UPDATE_PRODUCTS":
-            return {...state,Products:[...state.Products,...action.payload]}
+            return {...state,Products:[...action.payload]}
 
         case "UPDATE_PRODUCT":
             {
@@ -50,10 +50,10 @@ const Reducer = (state = initialState,action)=>{
         
         case "UPDATE_USER":
             {
-                    const index = state.Products.findIndex((x) => x.id === action.payload.id)
-                    let temp = [...state.Products]
+                    const index = state.RegisteredUsers.findIndex((x) => x.id === action.payload.id)
+                    let temp = [...state.RegisteredUsers]
                     temp[index] = action.payload
-                    return {...state,Products:temp}
+                    return {...state,RegisteredUsers:temp}
             }
             
 

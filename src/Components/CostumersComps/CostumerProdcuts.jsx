@@ -9,6 +9,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import MyCart from './MyCart'
 import { update } from 'firebase/database'
 import { Update } from '../../Utils/firebaseRequests'
+import { useNavigate } from 'react-router'
 
 
 const CostumerProdcuts = () => {
@@ -39,7 +40,7 @@ const CostumerProdcuts = () => {
   const handleShow = () => setShowCart(true);
 
   const dispatch = useDispatch()
-
+  const navigate  = useNavigate()
 
   const UpdateCart = (obj) =>{
     let temp = []
@@ -73,9 +74,13 @@ const CostumerProdcuts = () => {
       const q = query(collection(db, 'Products'))
       onSnapshot(q, (snapshot) => {
         SetProducts(snapshot.docs.map((doc)=>{
+          let TotalBought = doc.data().Bought_By?.reduce((acc,x)=>acc + parseInt(x.qty),0)
           return {id: doc.id,
             Count:0,
-          ...doc.data()}
+            TotalBought:TotalBought,
+          ...doc.data()
+        
+        }
         }))
       })
     }
@@ -94,8 +99,10 @@ const CostumerProdcuts = () => {
       fetchProds()   
     else
     {
-      CurrentProducts?.forEach((x)=>
-        x = {...x,Count:0}
+      CurrentProducts?.forEach((x,index)=>{
+        let TotalBought = x.Bought_By?.reduce((acc,x)=>acc + parseInt(x.qty),0)
+        CurrentProducts[index] = {...x,Count:0,TotalBought:TotalBought} 
+      }
       )
       SetProducts(CurrentProducts)
     }
@@ -116,8 +123,6 @@ const CostumerProdcuts = () => {
     }
     let max = 0
     Products?.forEach(element => {
-      let TotalBought = element?.Bought_By.reduce((acc,x)=>acc + parseInt(x.qty),0)
-      element = {...element,TotalBought:TotalBought}
       if(parseInt(element.Price) > max)
         max = parseInt(element.Price)
     });
@@ -159,26 +164,38 @@ const handleClear = () =>{
 
 const OrderProds = () =>{
   let temp = UserFromStore
+  let ProdsCopy = Products
   let Order = Cart.map((x)=>{
+    const idx = Products.findIndex((z) => z.Title == x.Title )
+    delete ProdsCopy[idx].Count
+    delete ProdsCopy[idx].TotalBought
+    if(UserFromStore.Permission)
+      {
+        ProdsCopy[idx] = {...ProdsCopy[idx],Bought_By:[...ProdsCopy[idx].Bought_By,{
+          date:new Date().toString('dd/MM/yyyy'),
+          name:UserFromStore.firstName +" "+ UserFromStore.lastName,
+          qty : x.Count 
+        }]}
+      }
+    ProdsCopy[idx] ={...ProdsCopy[idx],InStock:parseInt(ProdsCopy[idx].InStock) - parseInt(x.Count) }
+    Update(ProdsCopy[idx],"Products")
     return {
       Title : x.Title,
       Qty: x.Count,
       Total: parseInt(x.Count) * parseInt(x.Price),
-      Date: new Date() 
+      Date: new Date().toString('dd/MM/yyyy') 
     }
   })
+
+  dispatch({type:"UPDATE_PRODUCTS",payload:ProdsCopy})
+
   temp = {...temp,ProdcutsBought:[...temp.ProdcutsBought,...Order]}
   Update(temp,"RegisteredUsers")
   dispatch({type:"UPDATE_USER",payload:temp})
-  dispatch({type:"UPDATE_CURRENT_LOGGED_IN_USER",payload:temp})
-  SetCart([])
 
-  let tempProds = Products
-  tempProds.forEach(element => {
-    element.Count = 0
-  });
-  SetProducts(tempProds)
+  
 
+  navigate('/login')
 }
   
   return (

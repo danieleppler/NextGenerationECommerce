@@ -5,7 +5,7 @@ import { useSelector,useDispatch } from 'react-redux'
 const AdminCustomers = () => {
 
 
-  const dispatch = useDispatch()
+
   const [Costumers,SetCostumers] = useState()
   const CurrentCostumers = useSelector(state =>{ 
     return state?.rootReducer.RegisteredUsers
