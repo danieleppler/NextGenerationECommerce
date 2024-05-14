@@ -151,9 +151,14 @@ const handleChange = (e)=>{[
 
 const handleClick = () =>{
   let temp = [...CurrentProducts]
-  temp = temp.filter((x)=>x.Catagory === FilterData.Catagory)
-  temp = temp.filter((x)=>x.Price <= FilterData.Price)
-  temp = temp.filter((x)=>x.Title.includes(FilterData.Title))
+  if(FilterData.Title)
+    temp = temp.filter((x)=>x.Title.includes(FilterData.Title))
+  else{
+    temp = temp.filter((x)=>x.Category == FilterData.Catagory)
+    temp = temp.filter((x)=>x.Price <= FilterData.Price)
+  }
+  
+  
   SetProducts(temp)
 }
 
@@ -202,7 +207,8 @@ const OrderProds = () =>{
     <div>
     <nav style={{border:"3px solid black"}} className="navbar sticky-top navbar-light bg-light">
       <div >
-      Filter By Catagory: <select name ="Catagory" onChange={(e)=>{handleChange(e)}} defaultValue={FilterData.Catagory}>
+      Filter By Catagory: <select name ="Catagory" onChange={(e)=>{handleChange(e)}} >
+        <option> </option>
         {
           Catagories?.map((x)=>{
             return <option name={x.Title}>{x.Title}</option>
@@ -211,7 +217,7 @@ const OrderProds = () =>{
       </select>
       <label for="customRange" className="form-label">Price</label>
       <input name = "Price" onChange={(e)=>{handleChange(e)}} 
-      style={{width:"10%"}} type="range" className="form-range" id="customRange1" step="10" max={Math.ceil(MaxPrice)}></input>
+      style={{width:"10%"}} type="range" className="form-range" id="customRange1" step="10" max={Math.ceil(MaxPrice) + 50}></input>
       {FilterData?.Price} $
       Title : <input name ="Title" onChange={(e)=>{handleChange(e)}} type="text"></input>
       <button onClick={()=>{handleClick()}}>Search</button>

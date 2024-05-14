@@ -17,7 +17,7 @@ const Product = (props) => {
 
     useEffect(()=>{
       SetCurrentCount(props.data.Count)
-    },[])
+    },[props])
 
 
     useEffect(()=>{
@@ -48,9 +48,9 @@ const Product = (props) => {
           SetCurrentCount(CurrentCount -1)
    }}>-</button>
     <div style={{float:"right"}}>
-        <img src={props.data.Link_to_pic}></img>
+        <img style={{width:"100%",height:"150px"}} src={props.data.Link_to_pic}></img>
     </div>
-    <div style={{float:"right"}}>
+    <div >
         <p>Bought By {props.data.TotalBought}</p>
     </div>
     </div>

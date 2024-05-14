@@ -28,6 +28,9 @@ const AdminMain = () => {
         Statistics
         </Nav.Link>
       </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="/login" >Log Out</Nav.Link>
+      </Nav.Item>
     </Nav>
 <div style={{background:"cadetblue",height:"600px"}}>
 <Outlet />

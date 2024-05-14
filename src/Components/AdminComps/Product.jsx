@@ -41,7 +41,7 @@ const Product = (props) => {
           ​<textarea class="notesheet" rows="3" cols="40"  onChange ={(e)=>{SetProduct({...Product,Description:e.target.value})}} value={Product?.Description}></textarea>
           </Col>
           <Col className='col-md-4'>
-          <GenericTable data={props.data.Bought_By} />
+          <GenericTable KeysOrder = {['name','qty','date']} data={props.data.Bought_By} />
           </Col>
         </Row>
         <Row>

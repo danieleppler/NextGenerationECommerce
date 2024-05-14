@@ -22,7 +22,13 @@ const MyCart = (props) => {
                 })}}>-</button>
                 Total : 
                 {parseInt(x.Price) * parseInt(x.Count)} $
-                <button style={{background:"red",opacity:"50%"}}>X</button>
+                <button onClick ={()=>{
+                  props.updateFunc({
+                    Title:x.Title,
+                    Count:(0),
+                    Price:x.Price})
+
+                }} style={{background:"red",opacity:"50%"}}>X</button>
                 {TotalPrice = TotalPrice + parseInt(x.Price) * parseInt(x.Count)}
                 </div>
         

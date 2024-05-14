@@ -9,7 +9,7 @@ const MyOrders = () => {
     <div>
         {
             UserFromStore.ProdcutsBought.length > 0 ?
-            <GenericTable data={UserFromStore.ProdcutsBought} />
+            <GenericTable KeysOrder = {['Date','Title','Qty','Total']} data={UserFromStore.ProdcutsBought} />
             :
             <h2>No Orders Yet!</h2>
         }

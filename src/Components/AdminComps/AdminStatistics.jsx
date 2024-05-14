@@ -99,8 +99,8 @@ const AdminStatistics = () => {
     })
 
     let obj = ChartData.datasets[0]
-    obj =  {...obj,data:[...obj.data,QtyTotal]}
-    SetChartData({...ChartData,datasets:obj})  
+    obj =  {...obj,data:QtyTotal}
+    SetChartData({...ChartData,datasets:[obj]})  
       }
    
   },[FilterByUser])
@@ -113,9 +113,10 @@ const AdminStatistics = () => {
         </Col>
         <Col>
         Sort By Costumer : <select onChange={(e)=>{SetFilterByUser(e.target.value)}}>
+          <option> </option>
           {
             CurrentUsers?.map((x)=>{
-              return <option name={x.username} >{x.firstName }</option>
+              return <option name={x.username} >{x.firstName + ' ' + x.lastName}  </option>
             })
           }
           </select> <br /><br />

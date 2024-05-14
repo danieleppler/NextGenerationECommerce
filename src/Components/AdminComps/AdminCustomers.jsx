@@ -21,7 +21,7 @@ const AdminCustomers = () => {
       
   return (
     <div>
-    {Costumers && <GenericTable data={Costumers} />}      
+    {Costumers && <GenericTable KeysOrder = {['Full_Name','Joined_At','Prodcuts_Bought']} data={Costumers} />}      
     </div>
   )
 }

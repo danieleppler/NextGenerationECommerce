@@ -105,6 +105,7 @@ const handleChange = (e)=>{
   return (
     <div>
         {
+         
           Products?.map((x)=>{
             return <Product data={x} Catagories={Catagories?.map((x)=>x.Title)} update={handleUpdate}/>
           })

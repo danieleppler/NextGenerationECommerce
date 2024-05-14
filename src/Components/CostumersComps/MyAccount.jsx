@@ -117,14 +117,14 @@ const findFormErrors = () =>{
       <Form.Check
         label="Allow others to see my orders"
         name="Permission"
-        value={CurrentUser?.Permission}
+        checked={CurrentUser?.Permission}
       onChange={(e)=>{
         SetCurrentUser({...CurrentUser,Permission:e.target.checked})
       }}
       />
       </Form.Group>
       <Button variant="primary" type="submit" >
-        Submit
+        Save
       </Button><br />
       </Form>
 
