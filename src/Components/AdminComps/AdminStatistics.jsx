@@ -121,7 +121,7 @@ const AdminStatistics = () => {
           <option> </option>
           {
             CurrentUsers?.map((x)=>{
-              return <option name={x.username} >{x.firstName + ' ' + x.lastName}  </option>
+              return x.type == "costumer" && <option name={x.username} >{x.firstName + ' ' + x.lastName} <></>  </option>
             })
           }
           </select> <br /><br />

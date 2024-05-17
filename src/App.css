@@ -12,3 +12,19 @@
   border-radius: 50px !important;
   background: #F0F9FA !important;
   }
+
+  th, td {
+    padding: 20px;
+  }
+
+  .my-info {
+    border-collapse: collapse;
+  }
+  
+  .bottom-border {
+    border-bottom: 2px solid black;
+  }
+
+  .right-border {
+    border-right: 2px solid black;
+  }

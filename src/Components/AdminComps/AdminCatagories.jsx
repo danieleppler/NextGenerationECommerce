@@ -16,9 +16,11 @@ const AdminCatagories = () => {
   const notifyAddedNew = () => toast("Catagory successfuly added !",{
     className:"toast-message"
   });
+  
   const notifyUpdated = () => toast("Catagory successfuly updated !",{
     className:"toast-message"
   });
+
   const notifyDeleted = () => toast("Catagory successfuly deleted !",{
     className:"toast-message"
   });

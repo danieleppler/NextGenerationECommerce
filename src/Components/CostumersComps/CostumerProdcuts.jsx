@@ -181,9 +181,10 @@ const OrderProds = () =>{
           name:UserFromStore.firstName +" "+ UserFromStore.lastName,
           qty : x.Count 
         }]}
+      ProdsCopy[idx] ={...ProdsCopy[idx],InStock:parseInt(ProdsCopy[idx].InStock) - parseInt(x.Count) }
+      Update(ProdsCopy[idx],"Products")
       }
-    ProdsCopy[idx] ={...ProdsCopy[idx],InStock:parseInt(ProdsCopy[idx].InStock) - parseInt(x.Count) }
-    Update(ProdsCopy[idx],"Products")
+    
     return {
       Title : x.Title,
       Qty: x.Count,
@@ -197,9 +198,6 @@ const OrderProds = () =>{
   temp = {...temp,ProdcutsBought:[...temp.ProdcutsBought,...Order]}
   Update(temp,"RegisteredUsers")
   dispatch({type:"UPDATE_USER",payload:temp})
-
-  
-
   navigate('/login')
 }
   

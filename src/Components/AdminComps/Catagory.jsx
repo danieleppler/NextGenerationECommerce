@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { render } from 'react-dom';
 
 
+
 const Catagory = (props) => {
     const [textClicked,SettextClicked] = useState(false)
     const [updatedTitle,SetupdatedTitle] = useState(props.catagory.Title)

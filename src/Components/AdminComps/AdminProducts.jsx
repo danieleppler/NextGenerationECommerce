@@ -4,7 +4,9 @@ import { query,onSnapshot,collection } from 'firebase/firestore'
 import db from '../../Utils/firebase'
 import Product from './Product'
 import { Add,Update } from '../../Utils/firebaseRequests'
-import {Container,Row,Col} from 'react-bootstrap'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const AdminProducts = () => {
 
@@ -13,6 +15,14 @@ const AdminProducts = () => {
   const [Catagories,SetCatagories] = useState()
   const [AddNewClicked,SetAddNewClicked] =useState(false)
   const [NewProd,SetNewProd] = useState()
+
+  const notifyAddedNew = () => toast("Product successfuly added !",{
+    className:"toast-message"
+  });
+  
+  const notifyUpdated = () => toast("Product successfuly updated !",{
+    className:"toast-message"
+  });
 
   const CurrentProducts = useSelector((state)=>{
     return state?.rootReducer.Products
@@ -23,9 +33,6 @@ const AdminProducts = () => {
   const CurrentCatagories = useSelector((state)=>{
     return state?.rootReducer.Catagories
   })
-
-
-     
 
 
   useEffect(()=>{
@@ -86,6 +93,7 @@ const AdminProducts = () => {
 const handleUpdate=async (obj) => {
   await Update(obj,'Products')
   dispatch({type:"UPDATE_PRODUCT",payload:obj})
+  notifyUpdated()
 }
 
 const AddNew = async (obj) => {
@@ -93,6 +101,7 @@ const AddNew = async (obj) => {
   const newId = await Add(obj,'Products')
   obj ={...obj,id:newId}
   dispatch({type:"ADD_PRODUCT",payload:obj})
+  notifyAddedNew()
 }
 
 const handleChange = (e)=>{
@@ -104,36 +113,37 @@ const handleChange = (e)=>{
 
   return (
     <div>
+      <ToastContainer />
         {
          
           Products?.map((x)=>{
             return <Product data={x} Catagories={Catagories?.map((x)=>x.Title)} update={handleUpdate}/>
           })
         }
-      <button style={{marginTop:"10px",background:"cyan",borderRadius:"10px", border:"2px solid black"}} onClick={
+      <button style={{border:"3px solid black",marginLeft:"10px"}} onClick={
         (e)=>{
           SetAddNewClicked(true)
         }
       }>Add New</button><br />
       {
         AddNewClicked?
-        <div style={{padding:"10px",background:"rgb(134, 304, 124)",border:"1px solid red",borderRadius:"10px",marginTop:"10px",width:"50%"}}>
-          <strong>Title :</strong> <input name="Title" onChange={handleChange} style={{height:"20px"}}></input> <br />
-          <strong>Catagory :</strong><select name ="Category" onChange={handleChange}>
+        <div style={{margin:"10xp",border:"3px solid black",background:"AntiqueWhite",padding:"10px",margin:"10px",width:"50%"}}> 
+          <strong>Title :</strong> <input name="Title" onChange={handleChange} style={{height:"20px"}}></input> <br /><br />
+          <strong>Catagory :</strong><select name ="Category" onChange={handleChange}> 
               {
                 Catagories?.map((x)=>{
                 return  <option value={x.Title}>{x.Title}</option>
                })
                }
-        </select> <br />
-        <strong>Price :</strong> <input name ="Price" onChange={handleChange} style={{height:"20px"}}></input> <br />
-        <strong>Link to pic :</strong> <input name ="Link_to_pic" onChange={handleChange} style={{height:"20px"}}></input><br />
+        </select> <br /> <br />
+        <strong>Price :</strong> <input name ="Price" onChange={handleChange} style={{height:"20px"}}></input> <span>&nbsp;&nbsp;</span> <strong>$</strong><br /><br />
+        <strong>Link to pic :</strong> <input name ="Link_to_pic" onChange={handleChange} style={{height:"20px"}}></input> <br /><br />
         <strong>Description :</strong> <textarea name ="Description" onChange={handleChange} style={{height:"20px"}}></textarea>  <br />
-        <strong>Stock :</strong> <input name ="InStock" onChange={handleChange} style={{height:"20px"}}></input>
+        <strong>Stock :</strong> <input name ="InStock" onChange={handleChange} style={{height:"20px"}}></input><span>&nbsp;&nbsp;</span><br /><br />
         <button onClick={(e)=>{
           AddNew(NewProd)
           SetAddNewClicked(false)
-          }}>Save</button>
+          }}>Save</button> <span>&nbsp;&nbsp;</span>
            <button onClick={(e)=>{
           SetAddNewClicked(false)
           }}>Cancel</button>          

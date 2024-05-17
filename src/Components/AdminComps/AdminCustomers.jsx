@@ -20,7 +20,7 @@ const AdminCustomers = () => {
     
       
   return (
-    <div>
+    <div style={{marginLeft:"140px"}}>
     {Costumers && <GenericTable KeysOrder = {['Full_Name','Joined_At','Prodcuts_Bought']} data={Costumers} />}      
     </div>
   )

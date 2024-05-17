@@ -6,16 +6,11 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
-import {Add} from '../Utils/firebaseRequests'
+import {Add, Update} from '../Utils/firebaseRequests'
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 function Register() {
-
-  const notify = () => toast("Succesfully registerd !");
-
   
   const RegisteredUsers = useSelector((state) => state?.rootReducer.RegisteredUsers)
   const [submitted, setsubmitted] = useState(false);
@@ -57,17 +52,17 @@ const findFormErrors = () =>{
   return newErrors
 }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const newErrors = findFormErrors()
     if ( Object.keys(newErrors).length > 0 ) {
       setErrors(newErrors)
     } 
     else{
-      const newId =Add(formData,"RegisteredUsers")
+      const newId = await Add(formData,"RegisteredUsers")
       const obj = {...formData,id:newId}
       dispatch({type:"ADD_USER",payload:obj})
-      notify()
+      Update(obj,"RegisteredUsers")
       navigate("/login")
     }
     setsubmitted(true);
@@ -163,7 +158,6 @@ const findFormErrors = () =>{
     </Form.Group>
     <Button type="submit">Sign Up!</Button>
   </Form>
-  <ToastContainer />
     </div>
       );
 }
