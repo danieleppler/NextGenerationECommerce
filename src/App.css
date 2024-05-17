@@ -4,6 +4,11 @@
     grid-template-rows: 100px 5rem 300px 30%;
     grid-area: auto;
     padding: 20px;
-    margin-top: 100px;
-    
+    margin-top: 100px;   
 }
+
+.toast-message {
+    border: 1px solid #3A9EA5 !important;
+  border-radius: 50px !important;
+  background: #F0F9FA !important;
+  }
