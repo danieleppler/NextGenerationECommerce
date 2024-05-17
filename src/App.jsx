@@ -40,7 +40,7 @@ function App() {
  
 
   return (
-    <>
+    <div>
     <Routes>
     <Route path='/' element={<Navigate replace to="/login" />} />
     <Route path='/login' element={<Login />} />
@@ -60,7 +60,7 @@ function App() {
     </Route>
     
     </Routes>
-    </>
+    </div>
   )
 }
 

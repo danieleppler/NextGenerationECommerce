@@ -3,20 +3,19 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row';
 import { useDispatch } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
-import { Last } from 'react-bootstrap/esm/PageItem';
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore"
-import db from "../Utils/firebase.js"
+import {Add} from '../Utils/firebaseRequests'
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Add} from '../Utils/firebaseRequests'
+
 
 function Register() {
 
-  const notify = () => toast(`Welcome , ${formData.UserName} ! Successfuly registered`);
+  const notify = () => toast("Succesfully registerd !");
+
   
   const RegisteredUsers = useSelector((state) => state?.rootReducer.RegisteredUsers)
   const [submitted, setsubmitted] = useState(false);
@@ -67,8 +66,8 @@ const findFormErrors = () =>{
     else{
       const newId =Add(formData,"RegisteredUsers")
       const obj = {...formData,id:newId}
-      notify()
       dispatch({type:"ADD_USER",payload:obj})
+      notify()
       navigate("/login")
     }
     setsubmitted(true);
@@ -120,7 +119,6 @@ const findFormErrors = () =>{
       <Form.Group as={Col} md="4" controlId="validationCustomUsername">
         <Form.Label><strong>Username</strong></Form.Label>
         <InputGroup hasValidation>
-          <InputGroup.Text id="inputGroupPrepend">Generate</InputGroup.Text>
           <Form.Control
             name="UserName"
             onChange={handleChange}
@@ -139,9 +137,8 @@ const findFormErrors = () =>{
       <Form.Group as={Col} md="4" controlId="validationCustomPassword">
         <Form.Label><strong>Password</strong></Form.Label>
         <InputGroup hasValidation>
-          <InputGroup.Text id="inputGroupPrepend">Generate</InputGroup.Text>
           <Form.Control
-           // value={formData.Password}
+            value={formData.Password}
             type="text"
             name="Password"
             onChange={handleChange}
@@ -166,7 +163,7 @@ const findFormErrors = () =>{
     </Form.Group>
     <Button type="submit">Sign Up!</Button>
   </Form>
-
+  <ToastContainer />
     </div>
       );
 }

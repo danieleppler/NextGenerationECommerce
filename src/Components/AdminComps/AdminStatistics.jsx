@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import PieChart from '../StatisticsComps/PieChart'
-import { Bar, Chart, Pie } from 'react-chartjs-2'
+import { Bar, Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { query,onSnapshot,collection } from 'firebase/firestore'
 import db from '../../Utils/firebase';
 import { useDispatch} from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
-import { retry } from '@reduxjs/toolkit/query';
 
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,LinearScale,BarElement);
@@ -22,7 +20,6 @@ const AdminStatistics = () => {
   const [Products,SetProducts] =  useState()
   const [PieData,SetPieData] = useState()
   const [FilterByUser,SetFilterByUser] = useState()
-  const [RegisteredUsers,SetRegisteredUsers] = useState()
 
   
   
@@ -107,12 +104,20 @@ const AdminStatistics = () => {
 
   return (
     <Container>
+      <Row style={{marginBottom:"30px"}}>
+        <Col className='offset-md-4'>
+        <h2 style={{fontFamily:"fantasy"}}>Shopping statistics</h2>
+        </Col>
+      </Row>
       <Row>
-        <Col style={{height:"200px"}}>
+        <Col style={{height:"400px"}} className='offset-lg-4'>
         {PieData?.datasets.length > 0?<><Pie data={PieData}/></>:<></>}
         </Col>
-        <Col>
-        Sort By Costumer : <select onChange={(e)=>{SetFilterByUser(e.target.value)}}>
+        </Row>
+        <br /><br /><br />
+        <Row>
+        <Col className='offset-md-2'>
+        <span style={{background:"Azure",padding:"3px",border:"1px solid black",fontFamily:"monospace"}}> Sort By Costumer : </span>  <span>&nbsp;&nbsp;</span> <select onChange={(e)=>{SetFilterByUser(e.target.value)}}>
           <option> </option>
           {
             CurrentUsers?.map((x)=>{
@@ -120,7 +125,10 @@ const AdminStatistics = () => {
             })
           }
           </select> <br /><br />
-        {ChartData?.datasets.length > 0?<><Bar data={ChartData}/></>:<></>}
+          <div style={{height:"400px"}} >
+          {ChartData?.datasets.length > 0?<><Bar data={ChartData}/></>:<></>}
+          </div>
+      
         </Col>
       </Row>
     </Container>

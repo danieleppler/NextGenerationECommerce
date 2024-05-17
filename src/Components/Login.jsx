@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import '../App.css'
 import db from "../Utils/firebase.js"
 import { onSnapshot,query,collection } from 'firebase/firestore';
+import { ToastContainer} from 'react-toastify';
 
 
 //Bootstrap imports
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
 
 
 
@@ -94,9 +94,7 @@ const handleChange = (e) => {
 
   return (
     <div className='container General'>
-      {console.log("Component rendered")}
         <h2>Next Generation E-Commerce App</h2>
-
    <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label><strong>UserName</strong></Form.Label>
@@ -130,6 +128,7 @@ const handleChange = (e) => {
         Submit
       </Button><br />
       <span>New users? <Link to="/register"> Register</Link></span>
+      <ToastContainer />
     </Form>   
     </div>
     

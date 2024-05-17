@@ -2,7 +2,8 @@
     background-color: cadetblue;    
     display: grid;
     grid-template-rows: 100px 5rem 300px 30%;
-    grid-area: main;
+    grid-area: auto;
     padding: 20px;
-    margin-top: 200px;
+    margin-top: 100px;
+    
 }
