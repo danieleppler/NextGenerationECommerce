@@ -46,7 +46,7 @@ const Product = (props) => {
         <strong><p style={{fontFamily:"monospace"}}>Price : {props.data.Price}$</p></strong>
         <strong><p style={{fontFamily:"monospace"}}>In Stock: {props.data.InStock}</p></strong> 
         <button style={{borderRadius:"14px"}} onClick={(e)=>{
-        if(CurrentCount <= parseInt(props.data.InStock))
+        if(CurrentCount < parseInt(props.data.InStock))
           SetCurrentCount(CurrentCount + 1)      
           }}><strong> + </strong></button>
         <input style={{borderRadius:"14px",width:"10%"}} value={props.data.Count}></input>

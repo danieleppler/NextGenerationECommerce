@@ -12,7 +12,7 @@ const AdminCustomers = () => {
   })
 
   useEffect(()=>{
-    const temp = CurrentCostumers.map((x)=>{
+    const temp = CurrentCostumers?.filter((x)=>x.type == "costumer").map((x)=>{
       return {Full_Name:x.firstName +" "+ x.lastName,Joined_At:x.JoinedAt,Prodcuts_Bought:x.ProdcutsBought}
     })
     SetCostumers(temp)}

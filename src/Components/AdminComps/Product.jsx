@@ -27,9 +27,9 @@ const Product = (props) => {
         </Row>
         <Row style={{marginTop:"10px"}}>
           <Col className='col-md-4'>
-          <strong>Catagory : </strong> <select defaultValue={props.data.Catagory} >
+          <strong>Catagory : </strong> <select value={props.data.Category} >
               {
-                props.Catagories.map((x)=>{
+                props.Catagories?.map((x)=>{
                 return  <option value={x}>{x}</option>
                })
                }
