@@ -6,7 +6,7 @@ const MyOrders = () => {
     const UserFromStore = useSelector((state)=>state?.rootReducer.CurrentLogedInUser)
 
   return (
-    <div>
+    <div style={{marginLeft:"240px"}}>
         {
             UserFromStore.ProdcutsBought.length > 0 ?
             <GenericTable KeysOrder = {['Date','Title','Qty','Total']} data={UserFromStore.ProdcutsBought} />

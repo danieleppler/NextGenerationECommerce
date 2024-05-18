@@ -10,6 +10,7 @@ import MyCart from './MyCart'
 import { update } from 'firebase/database'
 import { Update } from '../../Utils/firebaseRequests'
 import { useNavigate } from 'react-router'
+import { ButtonGroup } from 'react-bootstrap'
 
 
 const CostumerProdcuts = () => {
@@ -203,46 +204,44 @@ const OrderProds = () =>{
   
   return (
     <div>
-    <nav style={{border:"3px solid black"}} className="navbar sticky-top navbar-light bg-light">
+    <nav style={{border:"3px solid black",marginBottom:"10px",padding:"10px",background:"azure"}} className="navbar sticky-top ">
       <div >
-      Filter By Catagory: <select name ="Catagory" onChange={(e)=>{handleChange(e)}} >
+      <span style={{fontFamily:"fantasy"}}>Filter By Catagory: </span><span>&nbsp;&nbsp;</span><select name ="Catagory" onChange={(e)=>{handleChange(e)}} >
         <option> </option>
         {
           Catagories?.map((x)=>{
             return <option name={x.Title}>{x.Title}</option>
           })
         }
-      </select>
-      <label for="customRange" className="form-label">Price</label>
+      </select> <span>&nbsp;&nbsp;</span>
+      <label for="customRange" className="form-label">Price</label> <span>&nbsp;&nbsp;</span> 
       <input name = "Price" onChange={(e)=>{handleChange(e)}} 
-      style={{width:"10%"}} type="range" className="form-range" id="customRange1" step="10" max={Math.ceil(MaxPrice) + 50}></input>
-      {FilterData?.Price} $
-      Title : <input name ="Title" onChange={(e)=>{handleChange(e)}} type="text"></input>
-      <button onClick={()=>{handleClick()}}>Search</button>
+      style={{width:"10%",marginTop:"4px"}} type="range" className="form-range" id="customRange1" step="10" max={Math.ceil(MaxPrice) + 50}></input> <span>&nbsp;&nbsp;</span>
+      {FilterData?.Price} $<span>&nbsp;&nbsp;</span>
+      Title : <input name ="Title" onChange={(e)=>{handleChange(e)}} type="text"></input> <span>&nbsp;&nbsp;</span>
+      <button onClick={()=>{handleClick()}}>Search</button> <span>&nbsp;&nbsp;</span>
       <button onClick={()=>{handleClear()}}>Clear</button>
       </div>
- 
-      
     </nav>
  
 
 
 
 <div>
-      <Button style={{position: "absolute",left:"0"}} variant="primary" onClick={handleShow}>
+      <Button style={{position: "fixed",left:"0"}} variant="primary" onClick={handleShow}>
         Open Cart
       </Button>
 
-      <Offcanvas show={showCart} onHide={handleClose}>
+      <Offcanvas bsPrefix="offcanvas" style={{background:"azure"}} show={showCart} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>MyCart</Offcanvas.Title>
+          <Offcanvas.Title as="span" style={{marginLeft:"130px",fontWeight:"bold"}}>MyCart</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           {
           Cart.length > 0?
           <MyCart updateFunc={UpdateCart} data={Cart} OrderProds = {OrderProds} />
         :
-        <h3>No Products In Cart Yet</h3>
+        <span style={{marginLeft:"75px",fontWeight:"bold"}}>No Products In Cart Yet</span>
         }
          
         </Offcanvas.Body>
@@ -250,7 +249,7 @@ const OrderProds = () =>{
     </div>
 
     {
-      Products?.map((x)=>{
+      Products?.filter((x)=>parseInt(x.InStock) > 0).map((x)=>{
         return <Product updateFunc={UpdateCart} data={x} />
       })
     }
