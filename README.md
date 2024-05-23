@@ -23,3 +23,18 @@ Also using redux to manage the data on the client side and prevent unnecessary A
 
 ###Known issues : 
 1. Need to add JWT user authentication with firebase.
+
+
+Launch instructions :
+1.clone the repo
+2.run in the project folder terminal 'npm i'
+3.2.run in the project folder terminal 'npm run dev'
+
+Test Users:
+Admin user - 
+username:DaniEpp51
+password:De040894
+
+costumer :
+username:Chef123
+password:De040894
