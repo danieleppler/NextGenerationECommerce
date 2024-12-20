@@ -3,10 +3,13 @@ import { Row, Col, Container } from 'react-bootstrap'
 import { Nav } from 'react-bootstrap'
 import { Outlet } from 'react-router'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const CostumersMain = () => {
 
   const CurrentUser = useSelector((state) => state?.rootReducer.CurrentLogedInUser)
+  const navigate = useNavigate()
+
   return (
     <div>
       <Row style={{ marginTop: "50px" }}>
@@ -18,16 +21,16 @@ const CostumersMain = () => {
       <Container>
         <Nav as="div" style={{ background: "azure" }} fill="true" variant="tabs" defaultActiveKey="2">
           <Nav.Item>
-            <Nav.Link to="/costumer/Products">Products</Nav.Link>
+            <Nav.Link onClick={() => navigate("/costumer/Products")}>Products</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link to="/costumer/Orders" >My Orders</Nav.Link>
+            <Nav.Link onClick={() => navigate("/costumer/Orders")} >My Orders</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link to="/costumer/Account">My Account</Nav.Link>
+            <Nav.Link onClick={() => navigate("/costumer/Account")} >My Account</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link to="/login" >Log Out</Nav.Link>
+            <Nav.Link onClick={() => navigate("/login")}  >Log Out</Nav.Link>
           </Nav.Item>
         </Nav>
         <div style={{ marginTop: "15px" }}>
