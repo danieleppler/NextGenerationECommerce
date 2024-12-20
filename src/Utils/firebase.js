@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBD940DjN4izAYdPNXYnIC4ESCkLgDdno0",
+  apiKey: "AIzaSyB3jEUy0Ki0Yk-FjQUcEN0K-6QpxXtZ5iw",
   authDomain: "yanivarad-react-final.firebaseapp.com",
   projectId: "yanivarad-react-final",
   storageBucket: "yanivarad-react-final.appspot.com",
